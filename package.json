@@ -25,7 +25,8 @@
     "console"
   ],
   "dependencies": {
-    "blessed": "^0.1.81"
+    "blessed": "^0.1.81",
+    "editor-widget": "^1.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",

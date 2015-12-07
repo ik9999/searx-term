@@ -1,0 +1,46 @@
+{
+    "extends": "standard",
+    "env": {
+        "node": true,
+        "es6": true
+    },
+    "plugins": [],
+    "ecmaFeatures": {
+        "arrowFunctions": true,
+        "binaryLiterals": true,
+        "blockBindings": true,
+        "classes": true,
+        "defaultParams": true,
+        "destructuring": true,
+        "forOf": true,
+        "generators": true,
+        "modules": true,
+        "objectLiteralComputedProperties": true,
+        "objectLiteralDuplicateProperties": true,
+        "objectLiteralShorthandMethods": true,
+        "objectLiteralShorthandProperties": true,
+        "octalLiterals": true,
+        "regexUFlag": true,
+        "regexYFlag": true,
+        "spread": true,
+        "superInFunctions": true,
+        "templateStrings": true,
+        "unicodeCodePointEscapes": true,
+        "globalReturn": true
+    },
+    "globals": {
+    },
+    "rules": {
+        "spaced-comment": 0,
+        "no-var": 2,
+        "semi": [2, always],
+        "space-before-function-paren": [2, never],
+        "yoda": 0,
+        "arrow-parens": [2, "as-needed"],
+        "arrow-spacing": 2,
+        "dot-location": [2, "property"],
+        "prefer-arrow-callback": 1
+    }
+}
+
+

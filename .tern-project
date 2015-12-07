@@ -1,0 +1,17 @@
+{
+  "ecmaVersion": 6,
+  "loadEagerly": [
+    "src/**/*.js"
+  ],
+  "plugins": {
+    "complete_strings": {},
+    "node": {},
+    "requirejs": {},
+    "es_modules": {},
+    "doc_comment": {
+      "fullDocs": true
+    }
+  }
+}
+
+

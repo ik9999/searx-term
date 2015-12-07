@@ -1,0 +1,42 @@
+{
+  "name": "searx-term",
+  "description": "Tool for searching in searx from terminal.",
+  "author": "ik9999",
+  "version": "0.0.1",
+  "main": "./src/index.js",
+  "bin": "./src/index.js",
+  "preferGlobal": false,
+  "license": "MIT",
+  "repository": "git://github.com/ik9999/searx-term.git",
+  "homepage": "https://github.com/ik9999/searx-term",
+  "bugs": {
+    "url": "http://github.com/ik9999/searx-term/issues"
+  },
+  "keywords": [
+    "searx",
+    "search",
+    "terminal",
+    "console"
+  ],
+  "tags": [
+    "searx",
+    "search",
+    "terminal",
+    "console"
+  ],
+  "dependencies": {
+    "blessed": "^0.1.81"
+  },
+  "devDependencies": {
+    "babel-core": "^6.3.15",
+    "babel-preset-es2015": "^6.3.13",
+    "eslint": "^1.10.3",
+    "eslint-config-standard": "^4.4.0",
+    "eslint-plugin-standard": "^1.3.1",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-clean": "^0.3.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "require-dir": "^0.3.0"
+  }
+}

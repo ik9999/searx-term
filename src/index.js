@@ -2,7 +2,8 @@ import blessed from 'blessed';
 import createWindow from './Window.js';
 
 let screen = blessed.screen({
-  smartCSR: true
+  smartCSR: true,
+  debug: true
 });
 screen.title = 'searx term';
 createWindow(screen);

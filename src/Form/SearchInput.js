@@ -9,13 +9,19 @@ module.exports = form => {
     inputOnFocus: true,
     bottom: 0,
     left: 0,
-    width: blessed.program().cols - 4,
+    width: '80%-1',
     height: 3,
     multiLine: false,
     border: {
       type: 'line'
+    },
+    style: {
+      focus: {
+        border: {
+          fg: '#af00ff'
+        }
+      }
     }
   });
-  textbox.focus();
   return textbox;
 };

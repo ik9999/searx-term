@@ -1,5 +1,6 @@
 import blessed from 'blessed';
-import createSearchForm from './SearchForm';
+import createSearchForm from './Form/Form.js';
+import createMain from './Main/Main.js';
 
 module.exports = screen => {
   let windowBox = blessed.box({
@@ -8,7 +9,7 @@ module.exports = screen => {
     left: 'center',
     width: '100%',
     height: '100%',
-    content: 'Hello {bold}world{/bold}!',
+    content: '{bold}Enter{/bold} - search. {bold}Tab{/bold} - switch.',
     tags: true,
     border: {
       type: 'line'
@@ -18,5 +19,6 @@ module.exports = screen => {
     return process.exit(0);
   });
   createSearchForm(windowBox);
+  createMain(windowBox);
   return windowBox;
 };

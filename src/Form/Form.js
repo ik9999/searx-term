@@ -2,7 +2,7 @@ import blessed from 'blessed';
 import createSearchInput from './SearchInput.js';
 import createPreferencesButton from './PreferencesButton.js';
 
-module.exports = windowBox => {
+export default windowBox => {
   let form = blessed.form({
     parent: windowBox,
     bottom: 0,

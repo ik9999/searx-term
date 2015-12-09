@@ -1,6 +1,6 @@
 import blessed from 'blessed';
 
-module.exports = windowBox => {
+export default windowBox => {
   let form = blessed.box({
     parent: windowBox,
     bottom: 0,

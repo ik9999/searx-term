@@ -1,7 +1,6 @@
-import blessed from 'blessed';
 import EditorWidget from 'editor-widget';
 
-module.exports = form => {
+export default form => {
   let textbox = new EditorWidget({
     parent: form,
     keys: true,

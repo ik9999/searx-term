@@ -25,6 +25,7 @@
     "console"
   ],
   "dependencies": {
+    "alt": "^0.18.0",
     "blessed": "^0.1.81",
     "editor-widget": "^1.1.0"
   },

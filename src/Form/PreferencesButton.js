@@ -1,6 +1,6 @@
 import blessed from 'blessed';
 
-module.exports = form => {
+export default form => {
   let button = blessed.button({
     parent: form,
     bottom: 0,

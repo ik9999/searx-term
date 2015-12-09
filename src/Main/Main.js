@@ -1,14 +1,16 @@
 import blessed from 'blessed';
 import createSearchResults from './SearchResults.js';
+import createStartingWindow from './StartingWindow.js';
 
-module.exports = windowBox => {
+export default (windowBox, stores) => {
   let main = blessed.box({
     parent: windowBox,
     bottom: 3,
     left: 0,
     width: '100%-2',
-    height: '100%-6'
+    height: '100%-5'
   });
-  let searchResultsWindow = createSearchResults(main);
+  let startingWindow = createStartingWindow(main);
+  //createStartingWindow(main);
   return main;
 };

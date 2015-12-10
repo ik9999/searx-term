@@ -1,4 +1,6 @@
 import blessed from 'blessed';
+import ApplicationActions from '../Actions/ApplicationActions.js';
+import * as MainWindowName from '../Constants/MainWindowName.js';
 
 export default form => {
   let button = blessed.button({
@@ -21,7 +23,7 @@ export default form => {
     }
   });
   button.on('press', () => {
-    console.log(button);
+    ApplicationActions.changeMainWindow(MainWindowName.PREFERENCES);
   });
   return button;
 };

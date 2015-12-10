@@ -1,7 +1,4 @@
 import blessed from 'blessed';
-import PreferencesActions from './../Actions/PreferencesActions.js';
-
-PreferencesActions.loadPreferences();
 
 export default windowBox => {
   let form = blessed.box({

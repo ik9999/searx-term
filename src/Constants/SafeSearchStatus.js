@@ -1,1 +1,3 @@
-export default ['none', 'strict', 'moderate'];
+export const NONE = 'NONE';
+export const STRICT = 'STRICT';
+export const MODERATE = 'MODERATE';

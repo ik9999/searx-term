@@ -1,7 +1,7 @@
 import alt from '../Alt.js';
 import actionCreators from '../Actions/PreferencesActions.js';
 import defaultPrefs from '../Constants/DefaultPreferences.js';
-import safeSearchStatus from '../Constants/SafeSearchStatus.js';
+import * as SafeSearchStatus from '../Constants/SafeSearchStatus.js';
 
 export default alt.createStore({
   displayName: 'PreferencesStore',
@@ -19,7 +19,7 @@ export default alt.createStore({
     if (jsonFileData === null || typeof jsonFileData !== 'object') {
       jsonFileData = {};
     }
-    let safeSearchStatusCorrect = jsonFileData.safesearch && safeSearchStatus.indexOf(jsonFileData.safesearch) > -1;
+    let safeSearchStatusCorrect = jsonFileData.safesearch && Object.keys(SafeSearchStatus).indexOf(jsonFileData.safesearch) > -1;
     let newState = {
       instance: (jsonFileData.instance) ? jsonFileData.instance : defaultPrefs.instance,
       enginesStr: (jsonFileData.engines) ? jsonFileData.engines : defaultPrefs.engines,

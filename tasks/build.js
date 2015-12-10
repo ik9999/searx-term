@@ -1,7 +1,6 @@
 let path = require('path');
 let gulp = require('gulp');
 let gulpBabel = require('gulp-babel');
-let gulpSourcemaps = require('gulp-sourcemaps');
 let gulpClean = require('gulp-clean');
 
 let buildDir = path.join(__dirname, '..', 'build');
@@ -19,11 +18,9 @@ gulp.task('copy', ['clean'], () => {
 
 gulp.task('scripts', ['copy'], () => {
   return gulp.src(path.join(buildDir, '**/*'))
-          .pipe(gulpSourcemaps.init())
           .pipe(gulpBabel({
             presets: ['es2015']
           }))
-          .pipe(gulpSourcemaps.write('.'))
           .pipe(gulp.dest(buildDir));
 });
 

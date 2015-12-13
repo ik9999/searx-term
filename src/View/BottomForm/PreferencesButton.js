@@ -1,6 +1,6 @@
 import blessed from 'blessed';
-import ApplicationActions from '../Actions/ApplicationActions.js';
-import * as MainWindowName from '../Constants/MainWindowName.js';
+import ApplicationActions from '../../Actions/ApplicationActions.js';
+import * as MainWindowName from '../../Constants/MainWindowName.js';
 
 export default form => {
   let button = blessed.button({
@@ -27,4 +27,3 @@ export default form => {
   });
   return button;
 };
-

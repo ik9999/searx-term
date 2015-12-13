@@ -1,10 +1,8 @@
 import blessed from 'blessed';
-import createWindow from './Window.js';
+import createWindow from './View/Window.js';
 import PreferencesStore from './Store/PreferencesStore.js';
 import PreferencesActions from './Actions/PreferencesActions.js';
 import ApplicationStore from './Store/ApplicationStore.js';
-
-PreferencesActions.loadPreferences();
 
 let screen = blessed.screen({
   smartCSR: true,
@@ -19,3 +17,4 @@ createWindow(screen, {
   ApplicationStore
 });
 screen.render();
+PreferencesActions.loadPreferences();

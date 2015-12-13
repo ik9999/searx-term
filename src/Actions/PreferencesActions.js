@@ -27,5 +27,14 @@ export default alt.createActions({
         }
       });
     };
+  },
+  updatePreferences: newPreferences => newPreferences,
+  savePreferences(state) {
+    return dispatch => {
+      let stateToSave = Object.assign(state, {savedToFile: undefined});
+      fs.writeFile(configPath, JSON.stringify(stateToSave), () => {
+        dispatch();
+      });
+    };
   }
 });

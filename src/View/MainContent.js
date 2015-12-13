@@ -1,7 +1,7 @@
 import blessed from 'blessed';
 import createSearchResults from './SearchResults.js';
-import createStartingWindow from './StartingWindow.js';
-import createPreferencesWindow from './Preferences.js';
+import createStartingWindow from './Starting.js';
+import createPreferencesWindow from './Preferences/Preferences.js';
 import * as MainWindowName from '../Constants/MainWindowName.js';
 
 export default (windowBox, stores) => {
@@ -13,7 +13,10 @@ export default (windowBox, stores) => {
     height: '100%-5'
   });
   let startingWindow = createStartingWindow(main);
-  let preferencesWindow = createPreferencesWindow(main, stores.PreferencesStore);
+  let preferencesWindow = createPreferencesWindow(main, {
+    PreferencesStore: stores.PreferencesStore,
+    ApplicationStore: stores.ApplicationStore
+  });
   preferencesWindow.hide();
   let currentWindow = startingWindow;
   stores.ApplicationStore.listen(state => {

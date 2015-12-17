@@ -1,4 +1,5 @@
 import blessed from 'blessed';
+import * as Colors from '../../Constants/Colors.js';
 
 export default (form, offsetTop) => {
   return blessed.checkbox({
@@ -11,7 +12,7 @@ export default (form, offsetTop) => {
     right: 0,
     style: {
       focus: {
-        fg: '#af00ff'
+        fg: Colors.FOCUS
       }
     },
     top: offsetTop,

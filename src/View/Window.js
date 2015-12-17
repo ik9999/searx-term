@@ -2,7 +2,7 @@ import blessed from 'blessed';
 import createSearchForm from './BottomForm/Form.js';
 import createMainContent from './MainContent.js';
 
-module.exports = (screen, stores) => {
+export default (screen, stores) => {
   let windowBox = blessed.box({
     parent: screen,
     top: 'center',
@@ -16,7 +16,13 @@ module.exports = (screen, stores) => {
   screen.key(['escape', 'C-c'], (ch, key) => {
     return process.exit(0);
   });
-  createSearchForm(windowBox, stores.ApplicationStore);
+  createSearchForm(windowBox, {
+    ApplicationStore: stores.ApplicationStore,
+    PreferencesStore: stores.PreferencesStore
+  });
+  stores.SearchResultsStore.listen(newState => {
+    windowBox.screen.debug(newState);
+  });
   createMainContent(windowBox, stores);
   return windowBox;
 };

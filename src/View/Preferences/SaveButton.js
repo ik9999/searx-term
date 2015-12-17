@@ -1,4 +1,5 @@
 import blessed from 'blessed';
+import * as Colors from '../../Constants/Colors.js';
 
 export default (form, offsetTop) => {
   let button = blessed.button({
@@ -12,9 +13,9 @@ export default (form, offsetTop) => {
     style: {
       focus: {
         border: {
-          fg: '#af00ff'
+          fg: Colors.FOCUS
         },
-        fg: '#af00ff'
+        fg: Colors.FOCUS
       }
     },
     border: {

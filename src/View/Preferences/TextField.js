@@ -1,4 +1,5 @@
 import EditorWidget from 'editor-widget';
+import * as Colors from '../../Constants/Colors.js';
 
 export default (form, offsetTop) => {
   let textbox = new EditorWidget({
@@ -15,9 +16,9 @@ export default (form, offsetTop) => {
     style: {
       focus: {
         border: {
-          fg: '#af00ff'
+          fg: Colors.FOCUS
         },
-        fg: '#af00ff'
+        fg: Colors.FOCUS
       }
     },
     top: offsetTop,

@@ -1,5 +1,5 @@
 import EditorWidget from 'editor-widget';
-import * as Colors from '../../Constants/Colors.js';
+import * as Colors from '../../../Constants/Colors.js';
 
 export default (form, offsetTop) => {
   let textbox = new EditorWidget({

@@ -1,8 +1,9 @@
 import blessed from 'blessed';
-import * as MainWindowName from '../../Constants/MainWindowName.js';
+import * as MainContentName from '../../Constants/MainContentName.js';
 import createSearchInput from './SearchInput.js';
 import createPreferencesButton from './PreferencesButton.js';
 import SearchActions from '../../Actions/SearchActions.js';
+import ApplicationActions from '../../Actions/ApplicationActions.js';
 
 export default (windowBox, stores) => {
   let form = blessed.form({
@@ -23,12 +24,13 @@ export default (windowBox, stores) => {
     searchInputBox.focus();
   });
   stores.ApplicationStore.listen(state => {
-    if (state.currentMainWindow === MainWindowName.STARTING) {
+    if (state.currentMainContent === MainContentName.STARTING) {
       searchInputBox.focus();
     }
   });
   searchInputBox.key('enter', () => {
-    SearchActions.performSearch(stores.PreferencesStore.getState(), searchInputBox.textBuf.getText());
+    ApplicationActions.changeMainContent(MainContentName.LOADING);
+    SearchActions.performSearch.defer(stores.PreferencesStore.getState(), searchInputBox.textBuf.getText());
   });
   searchInputBox.focus();
   return form;

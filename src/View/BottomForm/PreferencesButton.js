@@ -1,6 +1,6 @@
 import blessed from 'blessed';
 import ApplicationActions from '../../Actions/ApplicationActions.js';
-import * as MainWindowName from '../../Constants/MainWindowName.js';
+import * as MainContentName from '../../Constants/MainContentName.js';
 import * as Colors from '../../Constants/Colors.js';
 
 export default form => {
@@ -24,7 +24,7 @@ export default form => {
     }
   });
   button.on('press', () => {
-    ApplicationActions.changeMainWindow(MainWindowName.PREFERENCES);
+    ApplicationActions.changeMainContent(MainContentName.PREFERENCES);
   });
   return button;
 };

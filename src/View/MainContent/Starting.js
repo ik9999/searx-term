@@ -12,4 +12,3 @@ export default windowBox => {
   });
   return form;
 };
-

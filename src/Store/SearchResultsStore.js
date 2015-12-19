@@ -7,11 +7,18 @@ export default alt.createStore({
     onPerformSearch: actionCreators.performSearch
   },
   state: {
+    query: '',
     results: [],
-    error: false
+    error: false,
+    initial: true
   },
   onPerformSearch(requestResult) {
-    let newState = {};
+    let newState = {
+      query: requestResult.query
+    };
+    if (this.state.initial) {
+      this.state.initial = false;
+    }
     if (!requestResult.error) {
       let results = [];
       requestResult.results.forEach(resultInfo => {

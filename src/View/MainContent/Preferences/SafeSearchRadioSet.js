@@ -1,7 +1,7 @@
 import blessed from 'blessed';
-import * as SafeSearchStatus from '../../Constants/SafeSearchStatus.js';
-import SafeSearchStatusString from '../../Constants/SafeSearchStatusString.js';
-import * as Colors from '../../Constants/Colors.js';
+import * as SafeSearchStatus from '../../../Constants/SafeSearchStatus.js';
+import SafeSearchStatusString from '../../../Constants/SafeSearchStatusString.js';
+import * as Colors from '../../../Constants/Colors.js';
 
 export default (form, offsetTop) => {
   let radioset = blessed.radioset({

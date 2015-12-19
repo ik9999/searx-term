@@ -1,5 +1,5 @@
 import blessed from 'blessed';
-import * as Colors from '../../Constants/Colors.js';
+import * as Colors from '../../../Constants/Colors.js';
 
 export default (form, offsetTop) => {
   let button = blessed.button({

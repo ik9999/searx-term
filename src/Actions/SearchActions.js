@@ -15,6 +15,7 @@ export default alt.createActions({
     }
     return dispatch => {
       let data = {
+        query,
         error: true,
         results: []
       };

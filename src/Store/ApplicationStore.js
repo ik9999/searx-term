@@ -1,18 +1,18 @@
 import alt from '../Alt.js';
 import actionCreators from '../Actions/ApplicationActions.js';
-import * as MainWindowName from '../Constants/MainWindowName.js';
+import * as MainContentName from '../Constants/MainContentName.js';
 
 export default alt.createStore({
   displayName: 'ApplicationStore',
   bindListeners: {
-    onChangeMainWindow: actionCreators.changeMainWindow
+    onChangeMainContent: actionCreators.changeMainContent
   },
   state: {
-    currentMainWindow: MainWindowName.STARTING
+    currentMainContent: MainContentName.STARTING
   },
-  onChangeMainWindow(windowName) {
-    if (Object.keys(MainWindowName).indexOf(windowName) > -1) {
-      this.setState({currentMainWindow: windowName});
+  onChangeMainContent(mainContentName) {
+    if (Object.keys(MainContentName).indexOf(mainContentName) > -1) {
+      this.setState({currentMainContent: mainContentName});
     }
   }
 });

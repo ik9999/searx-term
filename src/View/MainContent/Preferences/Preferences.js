@@ -1,7 +1,7 @@
-import * as MainWindowName from '../../Constants/MainWindowName.js';
-import defaultPrefs from '../../Constants/DefaultPreferences.js';
-import PreferencesActions from '../../Actions/PreferencesActions.js';
-import ApplicationActions from '../../Actions/ApplicationActions.js';
+import * as MainContentName from '../../../Constants/MainContentName.js';
+import defaultPrefs from '../../../Constants/DefaultPreferences.js';
+import PreferencesActions from '../../../Actions/PreferencesActions.js';
+import ApplicationActions from '../../../Actions/ApplicationActions.js';
 import createTextField from './TextField.js';
 import createPropertiesContainer from './Container.js';
 import createForm from './Form.js';
@@ -86,7 +86,7 @@ export default (windowBox, stores) => {
   };
 
   stores.ApplicationStore.listen(state => {
-    if (state.currentMainWindow === MainWindowName.PREFERENCES) {
+    if (state.currentMainContent === MainContentName.PREFERENCES) {
       inputsObject.instance.control.focus();
     }
   });
@@ -125,7 +125,7 @@ export default (windowBox, stores) => {
       autocompleteSourceStr: inputsObject.autocompleteSource.control.textBuf.getText(),
       safeSearchStatus
     });
-    ApplicationActions.changeMainWindow(MainWindowName.STARTING);
+    ApplicationActions.changeMainContent(MainContentName.STARTING);
   });
   return preferencesContainer;
 };

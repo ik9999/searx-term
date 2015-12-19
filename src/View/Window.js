@@ -1,6 +1,6 @@
 import blessed from 'blessed';
 import createSearchForm from './BottomForm/Form.js';
-import createMainContent from './MainContent.js';
+import createMainContainer from './MainContent/Container.js';
 
 export default (screen, stores) => {
   let windowBox = blessed.box({
@@ -23,6 +23,6 @@ export default (screen, stores) => {
   stores.SearchResultsStore.listen(newState => {
     windowBox.screen.debug(newState);
   });
-  createMainContent(windowBox, stores);
+  createMainContainer(windowBox, stores);
   return windowBox;
 };

@@ -1,5 +1,6 @@
 import alt from '../Alt.js';
 
 export default alt.createActions({
-  changeMainContent: contentName => contentName
+  changeMainContent: contentName => contentName,
+  focusScreenPart: screenPartName => screenPartName
 });

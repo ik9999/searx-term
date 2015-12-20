@@ -86,7 +86,7 @@ export default (windowBox, stores) => {
   };
 
   stores.ApplicationStore.listen(state => {
-    if (state.currentMainContent === MainContentName.PREFERENCES) {
+    if (state.mainContentChanged && state.currentMainContent === MainContentName.PREFERENCES) {
       inputsObject.instance.control.focus();
     }
   });

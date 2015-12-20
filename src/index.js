@@ -7,7 +7,12 @@ import SearchResultsStore from './Store/SearchResultsStore.js';
 
 let screen = blessed.screen({
   smartCSR: true,
+  autoPadding: true,
   debug: true
+});
+process.on('uncaughtException', err => {
+  console.log(err.stack);
+  screen.debug(err.stack);
 });
 screen.title = 'searx term';
 createWindow(screen, {
@@ -17,6 +22,3 @@ createWindow(screen, {
 });
 screen.render();
 PreferencesActions.loadPreferences();
-process.on('uncaughtException', err => {
-  screen.debug(err.stack);
-});

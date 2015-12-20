@@ -1,5 +1,6 @@
 import blessed from 'blessed';
 import * as MainContentName from '../../Constants/MainContentName.js';
+import * as ScreenPart from '../../Constants/ScreenPart.js';
 import createSearchInput from './SearchInput.js';
 import createPreferencesButton from './PreferencesButton.js';
 import SearchActions from '../../Actions/SearchActions.js';
@@ -21,10 +22,16 @@ export default (windowBox, stores) => {
     searchInputBox._updateCursor();
   });
   preferencesButton.key('tab', () => {
-    searchInputBox.focus();
+    if (stores.ApplicationStore.getState().currentMainContent === MainContentName.SEARCH_RESULTS) {
+      ApplicationActions.focusScreenPart(ScreenPart.MAIN_CONTENT);
+    } else {
+      searchInputBox.focus();
+    }
   });
   stores.ApplicationStore.listen(state => {
-    if (state.currentMainContent === MainContentName.STARTING) {
+    let mainContentChanged = state.mainContentChanged && state.currentMainContent === MainContentName.STARTING;
+    let focusedScreenPartChanged = state.focusedScreenPartChanged && state.focusedScreenPart === ScreenPart.BOTTOM_FORM;
+    if (mainContentChanged || focusedScreenPartChanged) {
       searchInputBox.focus();
     }
   });

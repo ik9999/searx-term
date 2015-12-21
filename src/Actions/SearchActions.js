@@ -5,7 +5,7 @@ import * as SafeSearchStatusQueryId from '../Constants/SafeSearchStatusQueryId.j
 export default alt.createActions({
   performSearch(preferencesState, query = '', pageNo = 1) {
     let instance = preferencesState.instance;
-    let url = 'http://' + instance + '/?category_general=1&format=json&pageno=' + pageNo + '&q=' + query;
+    let url = 'http://' + instance + '/?category_general=1&format=json&pageno=' + pageNo + '&q=' + encodeURIComponent(query);
     if (preferencesState.enginesStr) {
       url += '&engines=' + preferencesState.enginesStr;
     }

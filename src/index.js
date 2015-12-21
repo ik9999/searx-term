@@ -8,7 +8,8 @@ import SearchResultsStore from './Store/SearchResultsStore.js';
 let screen = blessed.screen({
   smartCSR: true,
   autoPadding: true,
-  debug: true
+  debug: true,
+  fullUnicode: true
 });
 process.on('uncaughtException', err => {
   console.log(err.stack);

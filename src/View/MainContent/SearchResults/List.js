@@ -17,6 +17,7 @@ export default (parent, SearchResultsStore) => {
   let listItemsHeights;
   let listItemsCurrentOffset;
   let listItemsCurrentIdx;
+  let listCurrentHeight = 0; // Height without extraLastItem
   let extraLastItem;
   SearchResultsStore.listen(state => {
     if (typeof listItems !== 'undefined') {
@@ -33,11 +34,11 @@ export default (parent, SearchResultsStore) => {
       let offsetTop = 0;
       let index = 0;
       state.results.forEach(searchResultData => {
-        let item = createListItem(searchResultData, state.query, offsetTop, 100);
-        list.screen.debug(item.height);
+        let item = createListItem(searchResultData, state.query, offsetTop, 100, index, list.screen);
         listItems.push(item);
         if (offsetTop + item.height <= listHeight) {
           list.append(item);
+          listCurrentHeight += item.height;
           listItemsCurrentOffset.push(offsetTop);
           listItemsCurrentIdx.push(index);
         } else if (listItemsCurrentIdx.length > 0 && listItemsCurrentIdx[listItemsCurrentIdx.length - 1] === index - 1) {
@@ -48,9 +49,10 @@ export default (parent, SearchResultsStore) => {
         offsetTop += item.height + 1;
         index += 1;
       });
+      listCurrentHeight += listItemsCurrentIdx.length;
     }
   });
-  let updateCurrentOffsets = (doScreenRender = true) => {
+  let updateCurrentOffsets = () => {
     let offsetTop = 0;
     listItemsCurrentOffset = [];
     listItemsCurrentIdx.forEach(index => {
@@ -62,8 +64,25 @@ export default (parent, SearchResultsStore) => {
     if (extraLastItem) {
       extraLastItem.top = offsetTop;
     }
-    if (doScreenRender) {
-      list.screen.render();
+  };
+  let adjustShowedItemsNumber = () => {
+    let nextListItemIdx = listItemsCurrentIdx[listItemsCurrentIdx.length - 1] + 1;
+    while (nextListItemIdx < listItems.length && listCurrentHeight + extraLastItem.height < list.height) {
+      listItemsCurrentIdx.push(nextListItemIdx);
+      listCurrentHeight += listItemsHeights[nextListItemIdx] + 1;
+      if (nextListItemIdx + 1 < listItems.length) {
+        extraLastItem = listItems[nextListItemIdx + 1];
+        list.append(extraLastItem);
+      } else {
+        extraLastItem = null;
+      }
+      nextListItemIdx = listItemsCurrentIdx[listItemsCurrentIdx.length - 1] + 1;
+    }
+    while (listCurrentHeight > list.height) {
+      listCurrentHeight -= listItemsHeights[listItemsCurrentIdx[listItemsCurrentIdx.length - 1]] + 1;
+      let toExtraIdx = listItemsCurrentIdx.pop();
+      extraLastItem.detach();
+      extraLastItem = listItems[toExtraIdx];
     }
   };
 
@@ -74,30 +93,34 @@ export default (parent, SearchResultsStore) => {
   list.key(['j', 'down'], () => {
     if (listItemsCurrentIdx[listItemsCurrentIdx.length - 1] < listItems.length - 1) {
       listItems[listItemsCurrentIdx[0]].detach();
+      listCurrentHeight -= listItemsHeights[listItemsCurrentIdx[0]] + 1;
       listItemsCurrentIdx.shift();
-      //TODO fix bug with dynamic number of items in list
-      let nextListItemIdx = listItemsCurrentIdx[listItemsCurrentIdx.length - 1] + 1;
-      listItemsCurrentIdx.push(nextListItemIdx);
-      if (nextListItemIdx + 1 < listItems.length) {
-        extraLastItem = listItems[nextListItemIdx + 1];
-        list.append(extraLastItem);
-      }
-      updateCurrentOffsets(true);
-      list.screen.debug(listItemsCurrentIdx);
+
+      adjustShowedItemsNumber();
+      updateCurrentOffsets();
+      list.screen.render();
     }
   });
   list.key(['k', 'up'], () => {
     if (listItemsCurrentIdx[0] > 0) {
+      let detachedItem = null;
       if (extraLastItem) {
-        extraLastItem.detach();
+        detachedItem = extraLastItem;
       } else {
-        listItems[listItemsCurrentIdx.length - 1].detach();
+        detachedItem = listItems[listItemsCurrentIdx.length - 1];
       }
+      detachedItem.detach();
+      listCurrentHeight -= detachedItem.height + 1;
+
       extraLastItem = listItems[listItemsCurrentIdx.pop()];
       let prevListItemIdx = listItemsCurrentIdx[0] - 1;
       listItemsCurrentIdx.unshift(prevListItemIdx);
       list.prepend(listItems[prevListItemIdx]);
-      updateCurrentOffsets(true);
+      listCurrentHeight += listItemsHeights[prevListItemIdx] + 1;
+
+      adjustShowedItemsNumber();
+      updateCurrentOffsets();
+      list.screen.render();
     }
   });
   return list;

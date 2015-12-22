@@ -23,7 +23,6 @@ export default (screen, stores) => {
   });
   let mainContentContainer = createMainContainer(windowBox, stores);
   stores.SearchResultsStore.listen(newState => {
-    windowBox.screen.debug(newState);
   });
   return windowBox;
 };

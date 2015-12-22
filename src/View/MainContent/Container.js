@@ -29,7 +29,6 @@ export default (windowBox, stores) => {
   searchResultsContent.hide();
   let currentMainContent = startingContent;
   stores.ApplicationStore.listen(state => {
-    main.screen.debug(state);
     if (state.mainContentChanged) {
       currentMainContent.hide();
       switch (state.currentMainContent) {

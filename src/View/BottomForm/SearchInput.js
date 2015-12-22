@@ -23,5 +23,6 @@ export default form => {
       }
     }
   });
+  textbox.textBuf.setText('google');
   return textbox;
 };

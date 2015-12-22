@@ -1,7 +1,7 @@
 import blessed from 'blessed';
 import XRegExp from 'xregexp';
 
-export default (searchResultData, query, offsetTop, maxWidth) => {
+export default (searchResultData, query, offsetTop, maxWidth, listIdx, screen) => {
   let titleStr = '';
   let titleWithTags = '';
   if (searchResultData.title) {
@@ -24,19 +24,22 @@ export default (searchResultData, query, offsetTop, maxWidth) => {
     titleWithTags = titleWithTags.replace(new RegExp('(' + match[0] + ')', 'gi'), '{bold}$1{/bold}');
     contentWithTags = contentWithTags.replace(new RegExp('(' + match[0] + ')', 'gi'), '{bold}$1{/bold}');
   });
+  
 
   let title = blessed.text({
     top: 0,
     left: 0,
     height: 1,
-    width: searchResultData.title.length,
+    width: (listIdx + '. ' + searchResultData.title).length,
     align: 'left',
-    content: titleWithTags,
+    content: listIdx + '. ' + titleWithTags,
     tags: true,
     style: {
       underline: true
     }
   });
+  screen.debug(titleWithTags);
+  screen.debug(listIdx + '. ' + titleWithTags);
   let content = blessed.text({
     top: 1,
     left: 0,

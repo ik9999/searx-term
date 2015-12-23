@@ -13,75 +13,94 @@ import createSaveButton from './SaveButton.js';
 export default (windowBox, stores) => {
   let preferencesContainer = createPropertiesContainer(windowBox);
   let form = createForm(preferencesContainer);
-  let labelTitles = ['Instance url', 'Engines(comma-separated)', 'Enable autocomplete', 'Autocomplete source', 'Safe search'];
-  let labelsSequence = [];
-  let inputsSequence = [];
-  let textFieldsIndexes = [0, 1, 3];
-  let fieldsOffsets = [0, 3, 7, 9, 13, 16];
+  let labelTitles = [
+    'Instance url',
+    'Engines(comma-separated)',
+    'Enable autocomplete',
+    'Autocomplete source',
+    'Safe search',
+    'Search result width(in percents)'
+  ];
+  let labelsList = [];
+  let inputsList = [];
+  let controlsList = [];
+  let textControlsIndexes = [0, 1, 3, 5];
+  let textInputsIndexes = [0, 1, 3, 7];
+  let controlsOffsets = [0, 3, 7, 9, 13, 15, 18];
+  let labelWidth = 35;
+
+  let offsetTop = 1;
+  labelTitles.forEach(labelStr => {
+    labelsList.push(createLabel(form, labelStr, offsetTop, labelWidth));
+    offsetTop += 3;
+  });
+  textControlsIndexes.forEach((textControlIndex, _index) => {
+    controlsList[textControlIndex] = createTextField(form, controlsOffsets[textControlIndex], labelWidth + 5);
+    inputsList[textInputsIndexes[_index]] = controlsList[textControlIndex];
+  });
+
+  controlsList[2] = createSingleCheckbox(form, controlsOffsets[2], labelWidth + 5);
+  inputsList[2] = controlsList[2];
+
+  let safeSearchRadioSet = createSafeSearchRadioSet(form, controlsOffsets[4], labelWidth + 5);
+  let firstRadioIdx = 4;
+  safeSearchRadioSet.children.forEach(radioButton => {
+    inputsList[firstRadioIdx] = radioButton;
+    firstRadioIdx += 1;
+  });
+
+  let saveButton = createSaveButton(form, controlsOffsets[controlsOffsets.length - 1], labelWidth + 5);
+  inputsList.push(saveButton);
+
   let focusedInputIdx = 0;
   let onTabKey = () => {
     focusedInputIdx += 1;
-    if (focusedInputIdx > inputsSequence.length - 1) {
+    if (focusedInputIdx > inputsList.length - 1) {
       focusedInputIdx = 0;
     }
-    inputsSequence[focusedInputIdx].focus();
-    inputsSequence[0]._updateCursor();
+    form.screen.debug(Object.keys(inputsList));
+    inputsList[focusedInputIdx].focus();
+    inputsList[0]._updateCursor();
     form.screen.render();
   };
   let onShiftTabKey = () => {
     focusedInputIdx -= 1;
     if (focusedInputIdx < 0) {
-      focusedInputIdx = inputsSequence.length - 1;
+      focusedInputIdx = inputsList.length - 1;
     }
-    inputsSequence[focusedInputIdx].focus();
-    inputsSequence[0]._updateCursor();
+    inputsList[focusedInputIdx].focus();
+    inputsList[0]._updateCursor();
     form.screen.render();
   };
-  stores.PreferencesStore.listen(state => {
-    inputsSequence[0].textBuf.setText(state.instance);
-    windowBox.screen.render();
-  });
-
-  let offsetTop = 1;
-  labelTitles.forEach(labelStr => {
-    labelsSequence.push(createLabel(form, labelStr, offsetTop));
-    offsetTop += 3;
-  });
-  textFieldsIndexes.forEach((textFieldIndex, index) => {
-    inputsSequence[textFieldIndex] = createTextField(form, fieldsOffsets[textFieldIndex]);
-  });
-  inputsSequence[2] = createSingleCheckbox(form, fieldsOffsets[2]);
-  let safeSearchRadioSet = createSafeSearchRadioSet(form, fieldsOffsets[4]);
-  safeSearchRadioSet.children.forEach(radioButton => {
-    inputsSequence.push(radioButton);
-  });
-  let saveButton = createSaveButton(form, fieldsOffsets[5]);
-  inputsSequence.push(saveButton);
-  inputsSequence.forEach(input => {
+  inputsList.forEach(input => {
     input.key('S-tab', onShiftTabKey);
     input.key('tab', onTabKey);
   });
 
   let inputsObject = {
     'instance': {
-      label: labelsSequence[0],
-      control: inputsSequence[0]
+      label: labelsList[0],
+      control: controlsList[0]
     },
     'engines': {
-      label: labelsSequence[1],
-      control: inputsSequence[1]
+      label: labelsList[1],
+      control: controlsList[1]
     },
     'enableAutocomplete': {
-      label: labelsSequence[2],
-      control: inputsSequence[2]
+      label: labelsList[2],
+      control: controlsList[2]
     },
     'autocompleteSource': {
-      label: labelsSequence[3],
-      control: inputsSequence[3]
+      label: labelsList[3],
+      control: controlsList[3]
     },
     'safeSearchStatus': {
-      label: labelsSequence[4],
+      label: labelsList[4],
       control: safeSearchRadioSet
+    },
+    'searchResultsWidthPercents': {
+      label: labelsList[5],
+      control: controlsList[5]
     }
   };
 
@@ -94,6 +113,8 @@ export default (windowBox, stores) => {
     inputsObject.instance.control.textBuf.setText(state.instance);
     inputsObject.engines.control.textBuf.setText(state.enginesStr);
     inputsObject.autocompleteSource.control.textBuf.setText(state.autocompleteSourceStr);
+    form.screen.debug(state);
+    inputsObject.searchResultsWidthPercents.control.textBuf.setText(String(state.searchResultsWidthPercents));
     if (state.enableAutocomplete) {
       inputsObject.enableAutocomplete.control.check();
     } else {
@@ -123,6 +144,7 @@ export default (windowBox, stores) => {
       enginesStr: inputsObject.engines.control.textBuf.getText(),
       enableAutocomplete,
       autocompleteSourceStr: inputsObject.autocompleteSource.control.textBuf.getText(),
+      searchResultsWidthPercents: inputsObject.searchResultsWidthPercents.control.textBuf.getText(),
       safeSearchStatus
     });
     ApplicationActions.changeMainContent(MainContentName.STARTING);

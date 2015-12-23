@@ -1,11 +1,11 @@
 import blessed from 'blessed';
 import * as Colors from '../../../Constants/Colors.js';
 
-export default (form, offsetTop) => {
+export default (form, offsetTop, offsetLeft) => {
   let button = blessed.button({
     parent: form,
     top: offsetTop,
-    left: 30,
+    left: offsetLeft,
     width: 10,
     height: 3,
     align: 'center',

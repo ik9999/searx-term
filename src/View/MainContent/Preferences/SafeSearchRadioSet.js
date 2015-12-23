@@ -3,7 +3,7 @@ import * as SafeSearchStatus from '../../../Constants/SafeSearchStatus.js';
 import SafeSearchStatusString from '../../../Constants/SafeSearchStatusString.js';
 import * as Colors from '../../../Constants/Colors.js';
 
-export default (form, offsetTop) => {
+export default (form, offsetTop, offsetLeft) => {
   let radioset = blessed.radioset({
     height: 2,
     inputOnFocus: true,
@@ -12,10 +12,10 @@ export default (form, offsetTop) => {
     parent: form,
     right: 0,
     top: offsetTop,
-    width: '100%-30'
+    width: '100%-' + offsetLeft
   });
   let radiobuttons = [];
-  let offsetLeft = 0;
+  let radioOffsetLeft = 0;
   let margin = 5;
   Object.keys(SafeSearchStatus).forEach(safeSearchStatus => {
     if (SafeSearchStatusString[safeSearchStatus]) {
@@ -29,17 +29,17 @@ export default (form, offsetTop) => {
           }
         },
         top: 0,
-        left: offsetLeft
+        left: radioOffsetLeft
       }));
-      offsetLeft += 4;
+      radioOffsetLeft += 4;
       blessed.text({
         parent: form,
         content: SafeSearchStatusString[safeSearchStatus],
         top: offsetTop,
-        left: 30 + offsetLeft,
+        left: offsetLeft + radioOffsetLeft,
         width: SafeSearchStatusString[safeSearchStatus].length
       });
-      offsetLeft += SafeSearchStatusString[safeSearchStatus].length + margin;
+      radioOffsetLeft += SafeSearchStatusString[safeSearchStatus].length + margin;
     }
   });
   return radioset;

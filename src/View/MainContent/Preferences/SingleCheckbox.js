@@ -1,7 +1,7 @@
 import blessed from 'blessed';
 import * as Colors from '../../../Constants/Colors.js';
 
-export default (form, offsetTop) => {
+export default (form, offsetTop, offsetLeft) => {
   return blessed.checkbox({
     checked: true,
     height: 2,
@@ -16,7 +16,7 @@ export default (form, offsetTop) => {
       }
     },
     top: offsetTop,
-    width: '100%-30'
+    width: '100%-' + offsetLeft
   });
 };
 

@@ -1,7 +1,7 @@
 import EditorWidget from 'editor-widget';
 import * as Colors from '../../../Constants/Colors.js';
 
-export default (form, offsetTop) => {
+export default (form, offsetTop, offsetLeft) => {
   let textbox = new EditorWidget({
     border: {
       type: 'line'
@@ -22,7 +22,7 @@ export default (form, offsetTop) => {
       }
     },
     top: offsetTop,
-    width: '100%-30'
+    width: '100%-' + offsetLeft
   });
   return textbox;
 };

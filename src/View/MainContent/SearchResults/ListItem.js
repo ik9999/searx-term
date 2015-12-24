@@ -1,7 +1,7 @@
 import blessed from 'blessed';
 import XRegExp from 'xregexp';
 
-export default (searchResultData, query, offsetTop, maxWidth, listIdx, screen) => {
+export default (searchResultData, query, offsetTop, listIdx, maxWidth) => {
   let titleStr = '';
   let titleWithTags = '';
   if (searchResultData.title) {
@@ -20,11 +20,15 @@ export default (searchResultData, query, offsetTop, maxWidth, listIdx, screen) =
     contentWithTags = contentStrSplit.join('\n');
   }
 
+  let prettyUrlTxt = '';
+  if (searchResultData.prettyUrl) {
+    prettyUrlTxt = searchResultData.prettyUrl;
+  }
+
   XRegExp.forEach(query, XRegExp('\\p{L}+', 'g'), match => {
     titleWithTags = titleWithTags.replace(new RegExp('(' + match[0] + ')', 'gi'), '{bold}$1{/bold}');
     contentWithTags = contentWithTags.replace(new RegExp('(' + match[0] + ')', 'gi'), '{bold}$1{/bold}');
   });
-  
 
   let title = blessed.text({
     top: 0,
@@ -38,8 +42,6 @@ export default (searchResultData, query, offsetTop, maxWidth, listIdx, screen) =
       underline: true
     }
   });
-  screen.debug(titleWithTags);
-  screen.debug(listIdx + '. ' + titleWithTags);
   let content = blessed.text({
     top: 1,
     left: 0,
@@ -49,14 +51,24 @@ export default (searchResultData, query, offsetTop, maxWidth, listIdx, screen) =
     content: contentWithTags,
     tags: true
   });
+  let prettyUrl = blessed.text({
+    top: 1 + contentHeight,
+    left: 0,
+    height: 1,
+    width: '100%',
+    align: 'left',
+    content: prettyUrlTxt,
+    tags: false
+  });
 
   let form = blessed.box({
     top: offsetTop,
     width: '100%-1',
-    height: 1 + contentHeight
+    height: 2 + contentHeight
   });
   form.append(title);
   form.append(content);
+  form.append(prettyUrl);
 
   return form;
 };

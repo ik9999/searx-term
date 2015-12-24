@@ -24,7 +24,8 @@ export default (windowBox, stores) => {
   loadingContent.hide();
   let searchResultsContent = createSearchResults(main, {
     SearchResultsStore: stores.SearchResultsStore,
-    ApplicationStore: stores.ApplicationStore
+    ApplicationStore: stores.ApplicationStore,
+    PreferencesStore: stores.PreferencesStore
   });
   searchResultsContent.hide();
   let currentMainContent = startingContent;

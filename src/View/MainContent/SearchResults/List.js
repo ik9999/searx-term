@@ -1,8 +1,10 @@
 import blessed from 'blessed';
+import open from 'open';
 import createListItem from './ListItem.js';
-import * as Colors from '../../../Constants/Colors.js';
 
-export default (parent, SearchResultsStore) => {
+export default (parent, stores) => {
+  let SearchResultsStore = stores.SearchResultsStore;
+
   let list = blessed.box({
     parent,
     top: 0,
@@ -13,12 +15,15 @@ export default (parent, SearchResultsStore) => {
   });
 
   let listHeight = list.height;
+  let listWidth = list.width;
   let listItems;
   let listItemsHeights;
   let listItemsCurrentOffset;
   let listItemsCurrentIdx;
   let listCurrentHeight = 0; // Height without extraLastItem
   let extraLastItem;
+  let searchResultsData = [];
+
   SearchResultsStore.listen(state => {
     if (typeof listItems !== 'undefined') {
       listItems.forEach(item => {
@@ -29,12 +34,16 @@ export default (parent, SearchResultsStore) => {
     listItemsHeights = [];
     listItemsCurrentOffset = [];
     listItemsCurrentIdx = [];
+    listCurrentHeight = 0;
     extraLastItem = null;
+    searchResultsData = [];
     if (!state.error && !state.initial) {
       let offsetTop = 0;
       let index = 0;
+      let maxWidth = Math.floor(listWidth * stores.PreferencesStore.getState().searchResultsWidthPercents / 100);
+      searchResultsData = state.results;
       state.results.forEach(searchResultData => {
-        let item = createListItem(searchResultData, state.query, offsetTop, 100, index, list.screen);
+        let item = createListItem(searchResultData, state.query, offsetTop, index, maxWidth);
         listItems.push(item);
         if (offsetTop + item.height <= listHeight) {
           list.append(item);
@@ -52,6 +61,7 @@ export default (parent, SearchResultsStore) => {
       listCurrentHeight += listItemsCurrentIdx.length;
     }
   });
+
   let updateCurrentOffsets = () => {
     let offsetTop = 0;
     listItemsCurrentOffset = [];
@@ -86,10 +96,13 @@ export default (parent, SearchResultsStore) => {
     }
   };
 
-  list.on('focus', () => {
+  let lastPressedKeys = [];
+  list.on('keypress', (_, key) => {
+    if (key.full) {
+      lastPressedKeys.push(key.full);
+    }
   });
-  list.on('blur', () => {
-  });
+
   list.key(['j', 'down'], () => {
     if (listItemsCurrentIdx[listItemsCurrentIdx.length - 1] < listItems.length - 1) {
       listItems[listItemsCurrentIdx[0]].detach();
@@ -123,5 +136,27 @@ export default (parent, SearchResultsStore) => {
       list.screen.render();
     }
   });
+
+  list.key(['o', 'enter'], () => {
+    let lastPressedKeyIdx = lastPressedKeys.length - 2;
+    let selectedItemIndex;
+    while (lastPressedKeyIdx >= 0 && !Number.isNaN(parseInt(lastPressedKeys[lastPressedKeyIdx], 10))) {
+      let selectedItemIndexInt = parseInt(lastPressedKeys[lastPressedKeyIdx], 10);
+      if (typeof selectedItemIndex !== 'undefined') {
+        selectedItemIndex += Math.round(Math.pow(10, (lastPressedKeys.length - 2) - lastPressedKeyIdx));
+        list.screen.debug((lastPressedKeys.length - 2) - lastPressedKeyIdx);
+      } else {
+        selectedItemIndex = selectedItemIndexInt;
+      }
+      lastPressedKeyIdx -= 1;
+    }
+    if (selectedItemIndex < listItems.length) {
+      let selectedItemData = searchResultsData[selectedItemIndex];
+      if (selectedItemData.url) {
+        open(selectedItemData.url);
+      }
+    }
+  });
+
   return list;
 };

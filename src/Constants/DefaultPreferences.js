@@ -6,6 +6,6 @@ const prefs = {
   autocomplete: true,
   safesearch: SafeSearchStatus.NONE,
   autocomplete_source: 'startpage',
-  search_results_width_prc: 70
+  search_results_width_prc: 50
 };
 export default prefs;

@@ -33,7 +33,7 @@ export default alt.createStore({
     enableAutocomplete: null,
     autocompleteSourceStr: '',
     safeSearchStatus: '',
-    searchResultsWidthPercents: ''
+    searchResultsWidthPercents: null
   },
   onLoadPreferences(jsonFileData) {
     if (jsonFileData === null || typeof jsonFileData !== 'object') {

@@ -12,7 +12,10 @@ export default (parent, stores) => {
     width: '100%',
     height: '100%'
   });
-  let list = createList(box, stores.SearchResultsStore);
+  let list = createList(box, {
+    SearchResultsStore: stores.SearchResultsStore,
+    PreferencesStore: stores.PreferencesStore
+  });
   stores.ApplicationStore.listen(state => {
     let mainContentSet = state.currentMainContent === MainContentName.SEARCH_RESULTS;
     let mainCotentChanged = state.mainContentChanged && mainContentSet;

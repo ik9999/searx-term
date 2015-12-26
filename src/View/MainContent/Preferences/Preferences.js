@@ -1,4 +1,5 @@
 import * as MainContentName from '../../../Constants/MainContentName.js';
+import * as ScreenPart from '../../../Constants/ScreenPart.js';
 import defaultPrefs from '../../../Constants/DefaultPreferences.js';
 import PreferencesActions from '../../../Actions/PreferencesActions.js';
 import ApplicationActions from '../../../Actions/ApplicationActions.js';
@@ -58,7 +59,6 @@ export default (windowBox, stores) => {
     if (focusedInputIdx > inputsList.length - 1) {
       focusedInputIdx = 0;
     }
-    form.screen.debug(Object.keys(inputsList));
     inputsList[focusedInputIdx].focus();
     inputsList[0]._updateCursor();
     form.screen.render();
@@ -104,8 +104,13 @@ export default (windowBox, stores) => {
     }
   };
 
-  stores.ApplicationStore.listen(state => {
-    if (state.mainContentChanged && state.currentMainContent === MainContentName.PREFERENCES) {
+  stores.ApplicationStore.listenChange(state => state.currentMainContent, state => {
+    if (state.currentMainContent === MainContentName.PREFERENCES) {
+      inputsObject.instance.control.focus();
+    }
+  });
+  stores.ApplicationStore.listenChange(state => state.focusedScreenPart, state => {
+    if (state.currentMainContent === MainContentName.PREFERENCES && state.focusedScreenPart === ScreenPart.MAIN_CONTENT) {
       inputsObject.instance.control.focus();
     }
   });

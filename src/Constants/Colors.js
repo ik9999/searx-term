@@ -1,2 +1,2 @@
-export const FOCUS = '#af00ff';
+export const FOCUS = 98;
 export const BLUR = '';

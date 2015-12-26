@@ -16,15 +16,18 @@ export default (parent, stores) => {
     SearchResultsStore: stores.SearchResultsStore,
     PreferencesStore: stores.PreferencesStore
   });
-  stores.ApplicationStore.listen(state => {
-    let mainContentSet = state.currentMainContent === MainContentName.SEARCH_RESULTS;
-    let mainCotentChanged = state.mainContentChanged && mainContentSet;
-    let focusedScreenPartChanged = state.focusedScreenPartChanged && state.focusedScreenPart === ScreenPart.MAIN_CONTENT && mainContentSet;
-    if (mainCotentChanged || focusedScreenPartChanged) {
+  stores.ApplicationStore.listenChange(state => state.focusedScreenPart, state => {
+    if (state.focusedScreenPart === ScreenPart.MAIN_CONTENT && state.currentMainContent === MainContentName.SEARCH_RESULTS) {
       list.focus();
     }
   });
+  stores.ApplicationStore.listenChange(state => state.currentMainContent, state => {
+    if (state.currentMainContent === MainContentName.SEARCH_RESULTS) {
+      ApplicationActions.focusScreenPart.defer(ScreenPart.MAIN_CONTENT);
+    }
+  });
   list.key('tab', () => {
+    list.screen.debug(stores.ApplicationStore.getState());
     ApplicationActions.focusScreenPart(ScreenPart.BOTTOM_FORM);
   });
   return box;

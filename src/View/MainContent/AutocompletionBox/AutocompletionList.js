@@ -32,27 +32,33 @@ export default (windowBox, stores) => {
   });
 
   let suggestionList = [];
+  let onSelect = (_, selectedItemIdx) => {
+    ApplicationActions.setSearchQuery(suggestionList[selectedItemIdx]);
+    ApplicationActions.setAutocompletionVisible.defer(false);
+    ApplicationActions.focusScreenPart.defer(ScreenPart.BOTTOM_FORM);
+  };
   list.key('tab', () => {
     list.interactive = false;
     ApplicationActions.focusScreenPart(ScreenPart.BOTTOM_FORM);
   });
-  list.on('select', (_, selectedItemIdx) => {
-    ApplicationActions.setSearchQuery(suggestionList[selectedItemIdx]);
-    ApplicationActions.setAutocompletionVisible.defer(false);
-    ApplicationActions.focusScreenPart.defer(ScreenPart.BOTTOM_FORM);
-  });
+  list.up = offset => {
+    if (list.selected === 0) {
+      list.move(suggestionList.length - 1);
+    } else {
+      list.move(-(offset || 1));
+    }
+  };
+  list.down = offset => {
+    if (list.selected === suggestionList.length - 1) {
+      list.move(-(suggestionList.length - 1));
+    } else {
+      list.move(offset || 1);
+    }
+  };
 
   stores.AutocompleteStore.listen(state => {
-    list.clearItems();
-    list.selected = 0;
-    list.value = '';
-    list.value = '';
-    list.items = [];
-    list.ritems = [];
-    list.selected = 0;
-    list.scrollTo(0);
     if (!state.initial && !state.error && state.suggestions.length > 0) {
-      state.suggestions.forEach(suggestion => {
+      state.suggestions.reverse().forEach(suggestion => {
         list.addItem(suggestion);
       });
       suggestionList = state.suggestions;
@@ -64,6 +70,7 @@ export default (windowBox, stores) => {
     if (state.focusedScreenPart === ScreenPart.AUTOCOMPLETION) {
       list.interactive = true;
       list.select(suggestionList.length - 1);
+      list.on('select', onSelect);
       list.focus();
     }
   });

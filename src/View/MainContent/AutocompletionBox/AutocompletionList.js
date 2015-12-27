@@ -1,7 +1,7 @@
 import blessed from 'blessed';
-import ApplicationActions from '../../Actions/ApplicationActions.js';
-import * as Colors from '../../Constants/Colors.js';
-import * as ScreenPart from '../../Constants/ScreenPart.js';
+import ApplicationActions from '../../../Actions/ApplicationActions.js';
+import * as Colors from '../../../Constants/Colors.js';
+import * as ScreenPart from '../../../Constants/ScreenPart.js';
 
 export default (windowBox, stores) => {
   let list = blessed.list({
@@ -19,6 +19,9 @@ export default (windowBox, stores) => {
         bg: Colors.FOCUS,
         fg: 'white',
         bold: true
+      },
+      border: {
+        fg: Colors.FOCUS
       }
     },
     border: {
@@ -33,11 +36,12 @@ export default (windowBox, stores) => {
   });
   list.on('select', (_, selectedItemIdx) => {
     ApplicationActions.setSearchQuery(suggestionList[selectedItemIdx]);
+    ApplicationActions.setAutocompletionVisible.defer(false);
+    ApplicationActions.focusScreenPart.defer(ScreenPart.BOTTOM_FORM);
   });
-  //list.key('enter', () => {
-  //});
 
   stores.AutocompleteStore.listen(state => {
+    list.clearItems();
     if (!state.initial && !state.error && state.results.length > 0) {
       state.results.forEach(suggestion => {
         list.addItem(suggestion);
@@ -45,7 +49,6 @@ export default (windowBox, stores) => {
       suggestionList = state.results;
       list.height = state.results.length + 2;
       list.screen.render();
-      ApplicationActions.autocompletionListPopulated.defer(true);
     }
   });
   stores.ApplicationStore.listenChange(state => state.focusedScreenPart, state => {

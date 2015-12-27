@@ -1,5 +1,6 @@
 import blessed from 'blessed';
 import XRegExp from 'xregexp';
+import * as Colors from '../../../Constants/Colors.js';
 
 export default (searchResultData, query, offsetTop, listIdx, maxWidth) => {
   let titleStr = '';
@@ -25,7 +26,7 @@ export default (searchResultData, query, offsetTop, listIdx, maxWidth) => {
     prettyUrlTxt = searchResultData.prettyUrl;
   }
 
-  XRegExp.forEach(query, XRegExp('\\p{L}+', 'g'), match => {
+  XRegExp.forEach(query, XRegExp('[\\p{L}|\']+', 'g'), match => {
     titleWithTags = titleWithTags.replace(new RegExp('(' + match[0] + ')', 'gi'), '{bold}$1{/bold}');
     contentWithTags = contentWithTags.replace(new RegExp('(' + match[0] + ')', 'gi'), '{bold}$1{/bold}');
   });
@@ -58,7 +59,10 @@ export default (searchResultData, query, offsetTop, listIdx, maxWidth) => {
     width: '100%',
     align: 'left',
     content: prettyUrlTxt,
-    tags: false
+    tags: false,
+    style: {
+      fg: Colors.FOCUS
+    }
   });
 
   let form = blessed.box({

@@ -7,7 +7,7 @@ export default form => {
   let button = blessed.button({
     parent: form,
     bottom: 0,
-    right: 1,
+    right: 0,
     width: '20%-1',
     height: 3,
     content: 'Preferences',

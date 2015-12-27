@@ -8,13 +8,13 @@ export default alt.createStore({
   bindListeners: {
     onChangeMainContent: actionCreators.changeMainContent,
     onFocusScreenPart: actionCreators.focusScreenPart,
-    onAutocompletionListPopulated: actionCreators.autocompletionListPopulated,
+    onSetAutocompletionVisible: actionCreators.setAutocompletionVisible,
     onSetSearchQuery: actionCreators.setSearchQuery
   },
   state: {
     currentMainContent: MainContentName.STARTING,
     focusedScreenPart: ScreenPart.BOTTOM_FORM,
-    autoCompletionBoxPopulated: false,
+    autoCompletionVisible: false,
     searchQuery: ''
   },
   onChangeMainContent(mainContentName) {
@@ -31,9 +31,9 @@ export default alt.createStore({
       });
     }
   },
-  onAutocompletionListPopulated(isPopulated) {
+  onSetAutocompletionVisible(isVisible) {
     this.setState({
-      autoCompletionBoxPopulated: isPopulated
+      autoCompletionVisible: Boolean(isVisible)
     });
   },
   onSetSearchQuery(query) {

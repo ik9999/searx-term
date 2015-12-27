@@ -21,6 +21,7 @@ export default alt.createStore({
     }
     if (!requestResult.error) {
       newState.results = requestResult.results;
+      newState.error = false;
     } else {
       newState.error = true;
     }

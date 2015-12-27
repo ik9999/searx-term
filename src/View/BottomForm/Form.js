@@ -17,7 +17,10 @@ export default (windowBox, stores) => {
     vi: true
   });
 
-  let searchInputBox = createSearchInput(form);
+  let searchInputBox = createSearchInput(form, {
+    ApplicationStore: stores.ApplicationStore,
+    PreferencesStore: stores.PreferencesStore
+  });
   let preferencesButton = createPreferencesButton(form);
   searchInputBox.key('tab', () => {
     preferencesButton.focus();
@@ -29,37 +32,6 @@ export default (windowBox, stores) => {
     } else {
       searchInputBox.focus();
     }
-  });
-
-  stores.ApplicationStore.listenChange(state => state.focusedScreenPart, state => {
-    if (state.focusedScreenPart === ScreenPart.BOTTOM_FORM) {
-      searchInputBox.focus();
-    }
-  });
-  stores.ApplicationStore.listenChange(state => state.currentMainContent, state => {
-    if (state.currentMainContent === MainContentName.STARTING) {
-      searchInputBox.focus();
-    }
-  });
-  searchInputBox.key('enter', () => {
-    ApplicationActions.changeMainContent(MainContentName.LOADING);
-    SearchActions.performSearch.defer(stores.PreferencesStore.getState(), searchInputBox.textBuf.getText());
-  });
-
-  searchInputBox.ready.then(() => {
-    let originalKeyPressHandler = searchInputBox._events['keypress'];
-    searchInputBox.removeAllListeners('keypress');
-    searchInputBox.key('C-`', () => {
-      AutocompleteActions.getSuggestions(stores.PreferencesStore.getState(), 'bag');
-    });
-    searchInputBox.on('keypress', (ch, key) => {
-      form.screen.debug(key);
-      if (key.full === 'up' || key.full === 'C-k') {
-        ApplicationActions.focusScreenPart(ScreenPart.AUTOCOMPLETION);
-      } else {
-        originalKeyPressHandler(ch, key);
-      }
-    });
   });
 
   searchInputBox.focus();

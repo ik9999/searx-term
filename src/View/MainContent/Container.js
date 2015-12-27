@@ -3,10 +3,9 @@ import createSearchResults from './SearchResults/SearchResults.js';
 import createStarting from './Starting.js';
 import createPreferences from './Preferences/Preferences.js';
 import createLoading from './Loading.js';
-import createAutocompletionBox from './AutoCompletionBox.js';
+import createAutocompletionBox from './AutocompletionBox/AutocompletionContainer.js';
 import ApplicationActions from '../../Actions/ApplicationActions.js';
 import * as MainContentName from '../../Constants/MainContentName.js';
-import * as ScreenPart from '../../Constants/ScreenPart.js';
 
 export default (windowBox, stores) => {
   let mainContainer = blessed.box({
@@ -58,13 +57,18 @@ export default (windowBox, stores) => {
     currentMainContent.show();
     mainContainer.screen.render();
   });
-  stores.ApplicationStore.listenChange(state => state.autoCompletionBoxPopulated, state => {
-    if (state.autoCompletionBoxPopulated) {
+  stores.ApplicationStore.listenChange(state => state.autoCompletionVisible, state => {
+    if (state.autoCompletionVisible) {
       let contentHeight = mainContainer.height;
       let autoCompletionBoxHeight = autocompletionBox.height;
       currentMainContent.height = contentHeight - autoCompletionBoxHeight;
       currentMainContent.bottom = 3 + autoCompletionBoxHeight;
       autocompletionBox.show();
+      mainContainer.screen.render();
+    } else if (autocompletionBox.visible) {
+      currentMainContent.height += autocompletionBox.height;
+      currentMainContent.bottom = 3;
+      autocompletionBox.hide();
       mainContainer.screen.render();
     }
   });

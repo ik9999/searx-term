@@ -9,7 +9,7 @@ Tool for searching in searx from terminal. Written in node.js.
 * npm
 
 ### Latest build
-Version 0.0.1
+[https://github.com/ik9999/searx-term/releases/download/v0.0.1/0.0.1.zip](Version 0.0.1)
 
 ### Featues
 * Searching

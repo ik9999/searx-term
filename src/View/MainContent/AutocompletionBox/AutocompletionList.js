@@ -15,13 +15,15 @@ export default (windowBox, stores) => {
     vi: true,
     keys: true,
     style: {
-      selected: {
-        bg: Colors.FOCUS,
-        fg: 'white',
-        bold: true
-      },
-      border: {
-        fg: Colors.FOCUS
+      focus: {
+        selected: {
+          bg: Colors.FOCUS,
+          fg: 'white',
+          bold: true
+        },
+        border: {
+          fg: Colors.FOCUS
+        }
       }
     },
     border: {

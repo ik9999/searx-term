@@ -7,7 +7,6 @@ export default (parent, stores) => {
     parent,
     bottom: 0,
     left: 0,
-    height: 10,
     width: '100%'
   });
 
@@ -36,9 +35,11 @@ export default (parent, stores) => {
       if (state.error || state.results.length === 0) {
         list.hide();
         noSuggestions.show();
+        container.height = noSuggestions.height;
       } else {
         noSuggestions.hide();
         list.show();
+        container.height = list.height;
       }
     }
     list.screen.render();

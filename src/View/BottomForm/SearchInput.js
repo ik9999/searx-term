@@ -61,6 +61,7 @@ export default (form, stores) => {
     let originalKeyPressHandler = textbox._events['keypress'];
     textbox.removeAllListeners('keypress');
     textbox.key('C-`', () => {
+      textbox.screen.debug('dfg');
       AutocompleteActions.getSuggestions(stores.PreferencesStore.getState(), textbox.textBuf.getText());
     });
     textbox.on('keypress', (ch, key) => {

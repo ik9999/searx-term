@@ -1,5 +1,5 @@
 import blessed from 'blessed';
-import open from 'open';
+import opn from 'opn';
 import createListItem from './ListItem.js';
 
 export default (parent, stores) => {
@@ -43,7 +43,7 @@ export default (parent, stores) => {
       let maxWidth = Math.floor(listWidth * stores.PreferencesStore.getState().searchResultsWidthPercents / 100);
       searchResultsData = state.results;
       state.results.forEach(searchResultData => {
-        let item = createListItem(searchResultData, state.query, offsetTop, index, maxWidth);
+        let item = createListItem(searchResultData, state.query, offsetTop, index, maxWidth, list.screen);
         listItems.push(item);
         if (offsetTop + item.height <= listHeight) {
           list.append(item);
@@ -153,7 +153,7 @@ export default (parent, stores) => {
     if (selectedItemIndex < listItems.length) {
       let selectedItemData = searchResultsData[selectedItemIndex];
       if (selectedItemData.url) {
-        open(selectedItemData.url);
+        opn(selectedItemData.url);
       }
     }
   });

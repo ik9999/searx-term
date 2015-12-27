@@ -20,7 +20,7 @@ export default alt.createStore({
       this.state.initial = false;
     }
     if (!requestResult.error) {
-      newState.results = requestResult.results;
+      newState.suggestions = requestResult.results;
       newState.error = false;
     } else {
       newState.error = true;

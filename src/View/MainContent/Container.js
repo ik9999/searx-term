@@ -36,9 +36,28 @@ export default (windowBox, stores) => {
     ApplicationStore: stores.ApplicationStore
   });
   autocompletionBox.hide();
+  let showAutoCompletionBox = () => {
+    if (!autocompletionBox.visible) {
+      let contentHeight = mainContainer.height;
+      let autoCompletionBoxHeight = autocompletionBox.height;
+      currentMainContent.height = contentHeight - autoCompletionBoxHeight;
+      currentMainContent.bottom = 3 + autoCompletionBoxHeight;
+      autocompletionBox.show();
+      mainContainer.screen.render();
+    }
+  };
+  let hideAutoCompletionBox = () => {
+    if (autocompletionBox.visible) {
+      currentMainContent.height += autocompletionBox.height;
+      currentMainContent.bottom = 3;
+      autocompletionBox.hide();
+      mainContainer.screen.render();
+    }
+  };
 
   let currentMainContent = startingContent;
   stores.ApplicationStore.listenChange(state => state.currentMainContent, state => {
+    hideAutoCompletionBox();
     currentMainContent.hide();
     switch (state.currentMainContent) {
       case MainContentName.PREFERENCES:
@@ -56,20 +75,14 @@ export default (windowBox, stores) => {
     }
     currentMainContent.show();
     mainContainer.screen.render();
+    ApplicationActions.setAutocompletionVisible.defer(false);
   });
   stores.ApplicationStore.listenChange(state => state.autoCompletionVisible, state => {
     if (state.autoCompletionVisible) {
-      let contentHeight = mainContainer.height;
-      let autoCompletionBoxHeight = autocompletionBox.height;
-      currentMainContent.height = contentHeight - autoCompletionBoxHeight;
-      currentMainContent.bottom = 3 + autoCompletionBoxHeight;
-      autocompletionBox.show();
-      mainContainer.screen.render();
-    } else if (autocompletionBox.visible) {
-      currentMainContent.height += autocompletionBox.height;
-      currentMainContent.bottom = 3;
-      autocompletionBox.hide();
-      mainContainer.screen.render();
+      currentMainContent.screen.debug('show box');
+      showAutoCompletionBox();
+    } else {
+      hideAutoCompletionBox();
     }
   });
   stores.SearchResultsStore.listen(state => {

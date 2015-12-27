@@ -42,12 +42,19 @@ export default (windowBox, stores) => {
 
   stores.AutocompleteStore.listen(state => {
     list.clearItems();
-    if (!state.initial && !state.error && state.results.length > 0) {
-      state.results.forEach(suggestion => {
+    list.selected = 0;
+    list.value = '';
+    list.value = '';
+    list.items = [];
+    list.ritems = [];
+    list.selected = 0;
+    list.scrollTo(0);
+    if (!state.initial && !state.error && state.suggestions.length > 0) {
+      state.suggestions.forEach(suggestion => {
         list.addItem(suggestion);
       });
-      suggestionList = state.results;
-      list.height = state.results.length + 2;
+      suggestionList = state.suggestions;
+      list.height = state.suggestions.length + 2;
       list.screen.render();
     }
   });

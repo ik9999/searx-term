@@ -2,7 +2,7 @@ import blessed from 'blessed';
 import XRegExp from 'xregexp';
 import * as Colors from '../../../Constants/Colors.js';
 
-export default (searchResultData, query, offsetTop, listIdx, maxWidth) => {
+export default (searchResultData, query, offsetTop, listIdx, maxWidth, screen) => {
   let titleStr = '';
   let titleWithTags = '';
   if (searchResultData.title) {
@@ -35,13 +35,10 @@ export default (searchResultData, query, offsetTop, listIdx, maxWidth) => {
     top: 0,
     left: 0,
     height: 1,
-    width: (listIdx + '. ' + searchResultData.title).length,
+    width: '100%',
     align: 'left',
-    content: listIdx + '. ' + titleWithTags,
-    tags: true,
-    style: {
-      underline: true
-    }
+    content: listIdx + '. {underline}' + titleWithTags + '{/underline}',
+    tags: true
   });
   let content = blessed.text({
     top: 1,

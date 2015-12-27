@@ -1,22 +1,22 @@
 # searx-term
 Tool for searching in searx from terminal. Written in node.js.
 
-# Screenshot
+### Screenshot
 ![searx-term](https://cloud.githubusercontent.com/assets/6804575/12012457/bafc48de-ad05-11e5-9986-9b473b969bad.gif "searx-term")
 
-# Requirements
+### Requirements
 * Node.js
 * npm
 
-# Latest build
+### Latest build
 Version 0.0.1
 
-# Featues
+### Featues
 * Searching
 * Autocomplete queries
 * Preferences GUI
 
-# Installation
+### Installation
 * Download latest build
 * Unpack it
 * Install dependencies
@@ -28,25 +28,24 @@ $ ./setup.sh
 $ ./run.sh
 ```
 
-# Gulp tasks
+### Gulp tasks
 Build:
 ```
 $ gulp build
 ```
-
 Release:
 ```
 $ gulp release
 ```
 
-# Todo
+### Todo
 * Better design
 * Saving search history
 * Browsing search history
 * Multiple domains(using random)
 * Keep search history on remote server(?)
 
-# Dependencies
+### Dependencies
 * [alt](https://www.npmjs.com/package/alt)
 * [blessed](https://www.npmjs.com/package/blessed)
 * [editor-widget](https://www.npmjs.com/package/editor-widget)

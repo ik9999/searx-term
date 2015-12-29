@@ -38,6 +38,14 @@ Release:
 $ gulp release
 ```
 
+### Troubleshooting
+* Incorrect colors
+Add
+```
+export TERM="xterm-256color"
+```
+to ~/.bashrc(.zshrc if you are using zsh or your shell's startup script).
+
 ### Todo
 * Better design
 * Saving search history

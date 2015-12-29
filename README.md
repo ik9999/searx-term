@@ -39,7 +39,8 @@ $ gulp release
 ```
 
 ### Troubleshooting
-* Incorrect colors
+##### Incorrect colors
+
 Add
 ```
 export TERM="xterm-256color"
